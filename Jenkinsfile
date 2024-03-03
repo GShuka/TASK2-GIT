@@ -2,12 +2,13 @@
 
 pipeline {
     agent {
-        dockerContainer {
-            image 'ubuntu:latest'
-            environment {
-                USER = 'root' // Установка пользователя root
-            }
+        docker {
+            image 'python:latest' // Используем образ Python
+            args '-u root' // Устанавливаем права суперпользователя
         }
+    }
+    environment {
+        USER = 'root' // Устанавливаем пользователя root
     }
     stages {
         stage('Build') {
@@ -22,3 +23,4 @@ pipeline {
         }
     }
 }
+
