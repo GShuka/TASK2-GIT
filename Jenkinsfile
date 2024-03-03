@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        docker {
+        dockerContainer {
             image 'ubuntu:latest'
             args '-u root' // Выполнение команд с правами суперпользователя
         }
