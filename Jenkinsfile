@@ -1,21 +1,23 @@
+// Jenkinsfile
+
 pipeline {
     agent {
         docker {
             image 'ubuntu:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-u root' // Выполнение команд с правами суперпользователя
         }
     }
     stages {
         stage('Build') {
             steps {
-                sh 'apt-get update && apt-get install -y build-essential'
-                sh 'make'
+                sh 'g++ -o main main.cpp' // Команда сборки проекта (пример для C++)
             }
         }
-        stage('Publish') {
+        stage('Archive') {
             steps {
-                archiveArtifacts artifacts: '**/*', fingerprint: true
+                archiveArtifacts artifacts: 'main', fingerprint: true // Архивация бинарного файла
             }
         }
     }
 }
+
