@@ -1,19 +1,15 @@
 // Jenkinsfile
 
 pipeline {
-    agent {
-        docker {
-            image 'python:latest' // Используем образ Python
-            args '-u root' // Устанавливаем права суперпользователя
-        }
-    }
-    environment {
-        USER = 'root' // Устанавливаем пользователя root
-    }
+    agent any // Используем любой доступный агент
     stages {
         stage('Build') {
             steps {
-                sh 'python hello_world.py' // Команда для запуска hello_world.py
+                script {
+                    docker.image('python:latest').inside {
+                        sh 'python hello_world.py' // Команда для запуска hello_world.py
+                    }
+                }
             }
         }
         stage('Archive') {
