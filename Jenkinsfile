@@ -4,20 +4,21 @@ pipeline {
     agent {
         dockerContainer {
             image 'ubuntu:latest'
-            args '-u root' // Выполнение команд с правами суперпользователя
+            environment {
+                USER = 'root' // Установка пользователя root
+            }
         }
     }
     stages {
         stage('Build') {
             steps {
-                sh 'g++ -o main main.cpp' // Команда сборки проекта (пример для C++)
+                sh 'python hello_world.py' // Команда для запуска hello_world.py
             }
         }
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'main', fingerprint: true // Архивация бинарного файла
+                archiveArtifacts artifacts: 'hello_world.py', fingerprint: true // Архивация файла hello_world.py
             }
         }
     }
 }
-
